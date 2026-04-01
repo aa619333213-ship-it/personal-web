@@ -18,7 +18,7 @@
         <div>
           <p class="eyebrow">Overseas Ops Radar</p>
           <h1>海外玩家反馈监控台</h1>
-          <p class="sidebar-copy">聚焦 Reddit 玩家反馈，快速识别最不满的系统、负面扩散速度和运营风险。</p>
+          <p class="sidebar-copy">聚焦 Reddit 玩家反馈，快速识别最不满的系统、扩散速度和运营风险。</p>
         </div>
         <nav class="nav">
           <a class="nav-link active" href="./index.html">风险总览</a>
@@ -37,7 +37,7 @@
           <div>
             <p class="eyebrow">Daily Monitoring</p>
             <h2>3 分钟看清今天最值得关注的玩家风险</h2>
-            <p class="hero-copy">把负面声量、增速、热度和高影响帖子放到一个清晰视图里，方便运营快速判断。</p>
+            <p class="hero-copy">把风险分、热度和代表帖放到一个清晰视图里，方便运营快速判断。</p>
           </div>
           <div class="hero-actions">
             <button id="refresh-button" class="button button-primary">刷新实时数据</button>
@@ -46,17 +46,27 @@
         </header>
 
         <section class="overview-grid">
-          <article class="card risk-card">
+          <article id="risk-card" class="card risk-card">
             <div class="card-header">
               <div>
                 <p class="card-label">风险晴雨表</p>
-                <h3 id="risk-level-title">绿色</h3>
+                <h3 id="risk-level-title">晴</h3>
               </div>
-              <span id="risk-badge" class="risk-badge risk-green">绿色</span>
+              <span id="risk-badge" class="risk-badge risk-green">晴</span>
             </div>
-            <div class="risk-meter">
-              <div class="risk-meter-track">
-                <div id="risk-meter-fill" class="risk-meter-fill"></div>
+            <div id="risk-weather" class="risk-weather" aria-hidden="true"></div>
+            <div class="risk-meter risk-gauge">
+              <div class="risk-gauge-arc">
+                <div class="risk-gauge-track"></div>
+                <div class="risk-gauge-inner"></div>
+                <div id="risk-needle" class="risk-needle"></div>
+                <div class="risk-gauge-center"></div>
+              </div>
+              <div class="risk-scale">
+                <span>0 雨天</span>
+                <span>60 阴天</span>
+                <span>80 晴</span>
+                <span>100</span>
               </div>
               <div class="risk-meter-meta">
                 <strong id="risk-score">0</strong>
@@ -86,7 +96,7 @@
                   <p class="card-label">当前最不满系统 Top N</p>
                   <h3>问题榜单</h3>
                 </div>
-                <p class="section-note">结合负面占比、趋势增速和扩散风险排序</p>
+                <p class="section-note">结合风险等级和讨论热度排序</p>
               </div>
               <div id="issue-list" class="issue-list"></div>
             </article>
@@ -138,6 +148,7 @@
                 </label>
               </div>
               <div id="post-stream" class="post-stream"></div>
+              <div id="post-pagination" class="pagination"></div>
             </article>
           </div>
 
@@ -150,16 +161,6 @@
                 </div>
               </div>
               <div id="alert-list" class="stack-list"></div>
-            </article>
-
-            <article class="card">
-              <div class="card-header">
-                <div>
-                  <p class="card-label">标签体系</p>
-                  <h3>预置系统主题</h3>
-                </div>
-              </div>
-              <div id="taxonomy-list" class="taxonomy-list"></div>
             </article>
           </aside>
         </section>
