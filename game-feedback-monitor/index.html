@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>海外玩家反馈监控台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="dashboard">
+    <div class="page-shell">
+      <aside class="sidebar">
+        <div>
+          <p class="eyebrow">Overseas Ops Radar</p>
+          <h1>海外玩家反馈监控台</h1>
+          <p class="sidebar-copy">聚焦 Reddit 玩家反馈，快速识别最不满的系统、负面扩散速度和运营风险。</p>
+        </div>
+        <nav class="nav">
+          <a class="nav-link active" href="./index.html">风险总览</a>
+          <a class="nav-link" href="./reports.html">每日报告</a>
+          <a class="nav-link" href="./review.html">人工校正</a>
+        </nav>
+        <section class="sidebar-panel">
+          <p class="panel-label">监控对象</p>
+          <strong id="game-name">Rise of Kingdoms</strong>
+          <p id="source-summary">r/RiseofKingdoms</p>
+        </section>
+      </aside>
+
+      <main class="content">
+        <header class="hero">
+          <div>
+            <p class="eyebrow">Daily Monitoring</p>
+            <h2>3 分钟看清今天最值得关注的玩家风险</h2>
+            <p class="hero-copy">把负面声量、增速、热度和高影响帖子放到一个清晰视图里，方便运营快速判断。</p>
+          </div>
+          <div class="hero-actions">
+            <button id="refresh-button" class="button button-primary">刷新实时数据</button>
+            <button id="test-alert-button" class="button button-secondary">测试告警</button>
+          </div>
+        </header>
+
+        <section class="overview-grid">
+          <article class="card risk-card">
+            <div class="card-header">
+              <div>
+                <p class="card-label">风险晴雨表</p>
+                <h3 id="risk-level-title">绿色</h3>
+              </div>
+              <span id="risk-badge" class="risk-badge risk-green">绿色</span>
+            </div>
+            <div class="risk-meter">
+              <div class="risk-meter-track">
+                <div id="risk-meter-fill" class="risk-meter-fill"></div>
+              </div>
+              <div class="risk-meter-meta">
+                <strong id="risk-score">0</strong>
+                <span id="risk-change">较昨日 +0</span>
+              </div>
+            </div>
+            <div id="overview-metrics" class="metric-row"></div>
+          </article>
+
+          <article class="card compact-card">
+            <p class="card-label">今日结论</p>
+            <h3 id="headline-system">等待实时数据</h3>
+            <p id="headline-summary" class="summary-text"></p>
+          </article>
+
+          <article class="card compact-card">
+            <p class="card-label">预警摘要</p>
+            <div id="alert-summary" class="stack-list"></div>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <div class="main-column">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <p class="card-label">当前最不满系统 Top N</p>
+                  <h3>问题榜单</h3>
+                </div>
+                <p class="section-note">结合负面占比、趋势增速和扩散风险排序</p>
+              </div>
+              <div id="issue-list" class="issue-list"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <p class="card-label">玩家帖子与评论</p>
+                  <h3>明细流</h3>
+                </div>
+              </div>
+              <div class="filters">
+                <label>
+                  类型
+                  <select id="content-type-filter">
+                    <option value="all">全部</option>
+                    <option value="submission">帖子</option>
+                    <option value="comment">评论</option>
+                  </select>
+                </label>
+                <label>
+                  系统
+                  <select id="topic-filter"></select>
+                </label>
+                <label>
+                  情绪
+                  <select id="sentiment-filter">
+                    <option value="all">全部</option>
+                    <option value="negative">负向</option>
+                    <option value="neutral">中性</option>
+                    <option value="positive">正向</option>
+                  </select>
+                </label>
+                <label>
+                  风险
+                  <select id="risk-filter">
+                    <option value="all">全部</option>
+                    <option value="red">红色</option>
+                    <option value="orange">橙色</option>
+                    <option value="green">绿色</option>
+                  </select>
+                </label>
+                <label>
+                  排序
+                  <select id="sort-filter">
+                    <option value="time">时间</option>
+                    <option value="heat">热度</option>
+                  </select>
+                </label>
+              </div>
+              <div id="post-stream" class="post-stream"></div>
+            </article>
+          </div>
+
+          <aside class="side-column">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <p class="card-label">预警中心</p>
+                  <h3>待跟进事项</h3>
+                </div>
+              </div>
+              <div id="alert-list" class="stack-list"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <p class="card-label">标签体系</p>
+                  <h3>预置系统主题</h3>
+                </div>
+              </div>
+              <div id="taxonomy-list" class="taxonomy-list"></div>
+            </article>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <script src="./ui-config.js"></script>
+    <script src="./shared.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
